@@ -6,5 +6,6 @@
 2. Completed working of fav subfinder list
 
 ### NEXT
-1. Add logic for removing duplicacy
-2. Add logic for checking live domains
+- Add logic for puting all in result directory
+- Combine compare and sort the result
+- Add logic for checking live domains
