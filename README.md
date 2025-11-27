@@ -6,7 +6,7 @@
 2. Completed working of fav subfinder list
 3. Add logic for puting all in result directory
 4. Combine compare and sort the result
-5. Add logic for checking live domains
+5. Add logic for checking live domains {upload pending yet}
 
 
 ### NEXT
