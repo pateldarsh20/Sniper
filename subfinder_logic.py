@@ -70,10 +70,10 @@ def subfinder_menu(target):
 
 def subfinder_run(target):
     commands = [
-        f"subfinder -d {target} -all -recursive -o domain3.txt",
-        f"subfinder -d {target} -all -active -rl 20 -o domain4.txt",
-        f"subfinder -d {target} -all -active -rl 20 -t 10 -o domain5.txt",
-        f"subfinder -d {target} -o domain6.txt"
+        f"subfinder -d {target} -all -recursive -o result/{target}/domain3.txt",
+        f"subfinder -d {target} -all -active -rl 20 -o result/{target}/domain4.txt",
+        f"subfinder -d {target} -all -active -rl 20 -t 10 -o result/{target}/domain5.txt",
+        f"subfinder -d {target} -o result/{target}/domain6.txt"
     ]
 
     print("\n")
@@ -84,3 +84,12 @@ def subfinder_run(target):
         spinner_line(label, process)
 
     print(GREEN + "\n[✔] All Subfinder tasks completed!\n" + RESET)
+    mergcmd = (
+            f"cat result/{target}/domain3.txt "
+            f"result/{target}/domain4.txt "
+            f"result/{target}/domain5.txt "
+            f"result/{target}/domain6.txt "
+            f"| sort -u > result/{target}/final_subs.txt"
+        )
+    process_merg = silent_run(mergcmd)
+    spinner_line("Creating final file: ", process)
