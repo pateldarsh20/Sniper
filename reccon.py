@@ -9,6 +9,10 @@ def main_menu():
     banner()
 
     target = input(YELLOW + "Enter target domain: " + RESET).strip()
+    results_dir = f"result/{target}"
+    os.makedirs(results_dir, exist_ok=True)
+
+
 
     print(BOLD + CYAN + "Main Menu:\n" + RESET)
     print(GREEN + "01)" + RESET + "Subfinder")
@@ -21,6 +25,7 @@ def main_menu():
         subfinder_logic.subfinder_menu(target)
     else:
         main_menu()
+
 
 
 main_menu()
