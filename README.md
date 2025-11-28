@@ -1,6 +1,12 @@
 # SNIPER
 [ + ] Currently Working On it
 
+### HOW TO USE
+- git clone https://github.com/pateldarsh20/Sniper.git
+- python reccon.py
+
+=> This is will start script , Result/final list in ./result/(target)/alive.txt 
+
 ### Check Point
 1. Completed subfinder adding
 2. Completed working of fav subfinder list
