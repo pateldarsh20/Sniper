@@ -6,13 +6,12 @@ import time
 from colors import *
 from ui import banner, line
 
-# ---- Premium Spinner A (Dot Bounce) ----
+
 spinner_frames = [
     "⠋","⠙","⠹","⠸",
     "⠼","⠴","⠦","⠧",
     "⠇","⠏"
 ]
-
 
 def silent_run(cmd):
     """Run command silently (hide output)"""
@@ -23,7 +22,6 @@ def silent_run(cmd):
         stderr=subprocess.DEVNULL
     )
 
-
 def spinner_line(label, process):
     i = 0
     while process.poll() is None:
@@ -33,15 +31,14 @@ def spinner_line(label, process):
         time.sleep(0.08)
         i += 1
 
-    # Completed
+   
     sys.stdout.write(f"\r[✔] {label} completed\033[K\n")
     sys.stdout.flush()
 
-    # Remove finished line after a moment
+    
     time.sleep(0.6)
     sys.stdout.write("\033[F\033[K")
     sys.stdout.flush()
-
 
 
 def subfinder_menu(target):
@@ -67,8 +64,11 @@ def subfinder_menu(target):
         subfinder_run(target)
 
 
-
 def subfinder_run(target):
+
+    # Ensure target directory exists
+    os.makedirs(f"result/{target}", exist_ok=True)
+
     commands = [
         f"subfinder -d {target} -all -recursive -o result/{target}/domain3.txt",
         f"subfinder -d {target} -all -active -rl 20 -o result/{target}/domain4.txt",
@@ -84,12 +84,27 @@ def subfinder_run(target):
         spinner_line(label, process)
 
     print(GREEN + "\n[✔] All Subfinder tasks completed!\n" + RESET)
+
+    # Merge files
     mergcmd = (
-            f"cat result/{target}/domain3.txt "
-            f"result/{target}/domain4.txt "
-            f"result/{target}/domain5.txt "
-            f"result/{target}/domain6.txt "
-            f"| sort -u > result/{target}/final_subs.txt"
-        )
+        f"cat result/{target}/domain3.txt "
+        f"result/{target}/domain4.txt "
+        f"result/{target}/domain5.txt "
+        f"result/{target}/domain6.txt "
+        f"| sort -u > result/{target}/final_subs.txt"
+    )
+
     process_merg = silent_run(mergcmd)
-    spinner_line("Creating final file: ", process)
+    spinner_line("Creating final file", process_merg)
+
+  # HTTPX COMMAND
+    httpxcmd = (
+        f'echo "status code 200 and 301" > result/{target}/alive.txt && '
+        f'httpx -l result/{target}/final_subs.txt -sc -cl '
+        f'| grep -E "200|301" >> result/{target}/alive.txt'
+    )
+
+    process_httpx = silent_run(httpxcmd)
+    spinner_line("Running httpx", process_httpx)
+
+    print(GREEN + "\n[✔] ALL DONE!\n" + RESET)
